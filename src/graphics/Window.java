@@ -4,21 +4,19 @@ import algorithm.Graph;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Window extends JFrame {
+public class Window extends JFrame implements Observer {
 
-    private final static int WINDOW_WIDTH = 640, WINDOW_HEIGHT = 640, PADDING = 5;
+    private final static int WINDOW_WIDTH = 900, WINDOW_HEIGHT = 900;
 
     private Graph graph;
 
     private GraphPanel panel;
 
-    private int minSize, maxSize;
-
     public Window(String title, String filename) throws HeadlessException {
         super(title);
-
-        graph = new Graph(filename);
 
         panel = new GraphPanel();
 
@@ -26,17 +24,20 @@ public class Window extends JFrame {
 
         this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-        // Get the minimal and maximal value for flexible points drawing
-        minSize = graph.getClients().stream().min();
-        maxSize = graph.getClients().stream().max();
-
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setVisible(true);
+
+        graph = new Graph(filename, this);
+
     }
 
 
-    public void drawClients() {
-        panel.drawClients(graph);
+    public void drawGraph(Observable o) {
+        panel.drawClients(graph, o);
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        drawGraph(o);
+    }
 }

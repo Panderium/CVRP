@@ -5,16 +5,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observer;
 
 import static java.util.stream.Collectors.joining;
 
 public class Graph {
-    private final List<Route> routes;
     private final List<Client> clients;
     private Client warehouse;
 
-    public Graph(String filename) {
-        this.routes = new ArrayList<>();
+    private Taboo taboo;
+
+    public Graph(String filename, Observer observer) {
         this.clients = new ArrayList<>();
 
         try {
@@ -50,6 +51,9 @@ public class Graph {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.taboo = null;
+
+        (new Thread(new Taboo(this, observer))).start();
     }
 
     @Override
@@ -60,11 +64,16 @@ public class Graph {
 
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public Taboo getTaboo() {
+        return taboo;
     }
 
-    private void generateFirstSolution() {
-        // TODO generer une premiere solution qu'on ameliorera par la suite
+
+    public Client getWarehouse() {
+        return warehouse;
+    }
+
+    public List<Client> getClients() {
+        return clients;
     }
 }
