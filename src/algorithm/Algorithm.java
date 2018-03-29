@@ -17,4 +17,6 @@ public abstract class Algorithm extends Observable {
     public List<Route> getRoutes() {
         return routes;
     }
+
+    protected abstract void step();
 }

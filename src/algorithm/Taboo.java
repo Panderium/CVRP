@@ -1,5 +1,6 @@
 package algorithm;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observer;
 
@@ -11,10 +12,13 @@ public class Taboo extends Algorithm implements Runnable {
 
     private Route currentRoute;
 
+    private Client[] switchedClient;
+
     public Taboo(Graph graph, Observer observer) {
         super(observer);
         this.graph = graph;
         currentRoute = null;
+        switchedClient = new Client[2];
     }
 
     private void initRoutes() {
@@ -42,10 +46,14 @@ public class Taboo extends Algorithm implements Runnable {
         currentRoute.addClient(graph.getWarehouse());
     }
 
-    private void step() {
+    @Override
+    protected void step() {
+        // échanger 2 points d'un chemin ssi ces 2 points ne sont pas dans la
 
+
+        /*switchedClient[0] = ;
+        switchedClient[1] = ;*/
     }
-
 
     @Override
     public void run() {
