@@ -17,6 +17,9 @@ public class GraphPanel extends JPanel {
     public void drawClients(Graph graph, Observable o) {
         this.graph = graph;
         this.taboo = (Taboo)o;
+
+        repaint();
+        revalidate();
     }
 
     @Override
@@ -41,15 +44,11 @@ public class GraphPanel extends JPanel {
         });
 
         g.setColor(Color.BLUE);
-        g.drawRect(graph.getWarehouse().getX() * RATIO, graph.getWarehouse().getY() * RATIO, 1, 1);
-        g.drawRect(graph.getWarehouse().getX() * RATIO, graph.getWarehouse().getY() * RATIO, 2, 2);
-        g.drawRect(graph.getWarehouse().getX() * RATIO, graph.getWarehouse().getY() * RATIO, 3, 3);
+        g.fillOval(graph.getWarehouse().getX() * RATIO - RATIO / 2, graph.getWarehouse().getY() * RATIO - RATIO / 2, RATIO, RATIO);
 
         g.setColor(Color.RED);
         graph.getClients().forEach(client -> {
-            g.drawRect(client.getX() * RATIO, client.getY() * RATIO, 1, 1);
-            g.drawRect(client.getX() * RATIO, client.getY() * RATIO, 2, 2);
-            g.drawRect(client.getX() * RATIO, client.getY() * RATIO, 3, 3);
+            g.fillOval(client.getX() * RATIO - RATIO / 2, client.getY() * RATIO - RATIO / 2, RATIO, RATIO);
         });
 
     }

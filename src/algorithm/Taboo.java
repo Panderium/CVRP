@@ -5,6 +5,8 @@ import java.util.Observer;
 
 public class Taboo extends Algorithm implements Runnable {
 
+    private final int SLEEPING_TIME = 500;
+
     private Graph graph;
 
     private Route currentRoute;
@@ -40,14 +42,25 @@ public class Taboo extends Algorithm implements Runnable {
         currentRoute.addClient(graph.getWarehouse());
     }
 
+    private void step() {
+
+    }
+
 
     @Override
     public void run() {
         initRoutes();
-        setChanged();
-        notifyObservers();
         while(true) {
+            // Step taboo
 
+
+            setChanged();
+            notifyObservers();
+            try {
+                Thread.sleep(SLEEPING_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
