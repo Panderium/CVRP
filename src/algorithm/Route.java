@@ -14,11 +14,6 @@ public class Route {
         this.capacityLeft = 100;
     }
 
-    public Route(List<Client> route) {
-        this.capacityLeft = 100;
-        this.route = route;
-    }
-
     public void addClient(Client client) {
         this.route.add(client);
         decreaseCapacityLeft(client.getQuantity());
@@ -26,10 +21,6 @@ public class Route {
 
     public List<Client> getRoute() {
         return route;
-    }
-
-    public void setRoute(List<Client> route) {
-        this.route = route;
     }
 
     public int getCapacityLeft() {

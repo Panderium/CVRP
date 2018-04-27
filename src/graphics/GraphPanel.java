@@ -14,12 +14,29 @@ public class GraphPanel extends JPanel {
     private Graph graph;
     private Taboo taboo;
 
+    private Color[] colors = {
+            Color.BLUE,
+            Color.RED,
+            Color.BLACK,
+            Color.PINK,
+            Color.ORANGE,
+            Color.YELLOW,
+            Color.GRAY,
+            Color.DARK_GRAY,
+            Color.CYAN
+    };
+    private int colorCount;
+
     public void drawClients(Graph graph, Observable o) {
         this.graph = graph;
-        this.taboo = (Taboo)o;
+        this.taboo = (Taboo) o;
 
         repaint();
         revalidate();
+    }
+
+    private Color getRandomColor() {
+        return colors[colorCount++ % colors.length];
     }
 
     @Override
@@ -30,9 +47,9 @@ public class GraphPanel extends JPanel {
             System.out.println("graph RETURNED");
             return;
         }
-
+        colorCount = 0;
         taboo.getRoutes().forEach(route -> {
-            g.setColor(Color.GREEN);
+            g.setColor(getRandomColor());
 
             Client lastClient = route.getRoute().get(0);
 

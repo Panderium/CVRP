@@ -42,6 +42,8 @@ public class Taboo extends Algorithm implements Runnable {
         }
         routes.add(currentRoute);
         closeAndNewRoute();
+        setChanged();
+        notifyObservers();
     }
 
     private void closeAndNewRoute() {
@@ -74,7 +76,7 @@ public class Taboo extends Algorithm implements Runnable {
         int random;
         do {
             random = randomGenerator.nextInt(swappedRoute.getRoute().size() - 2) + 1;
-        }while(random == swappedClient[0]);
+        } while (random == swappedClient[0]);
         swappedClient[1] = random;
 
         swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
@@ -82,6 +84,10 @@ public class Taboo extends Algorithm implements Runnable {
         // Swap back if not worth
         if (calculateDistance() > lastDistance)
             swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
+        else {
+            setChanged();
+            notifyObservers();
+        }
         //else
         //    System.out.println("Stepped : swap " + swappedClient[0] + " and " + swappedClient[1] + " from " + swappedRoute + ", distance=" + lastDistance);
         System.out.println("distance=" + calculateDistance());
@@ -90,9 +96,8 @@ public class Taboo extends Algorithm implements Runnable {
     @Override
     public void run() {
         initRoutes();
+
         while (true) {
-            setChanged();
-            notifyObservers();
             try {
                 Thread.sleep(SLEEPING_TIME);
             } catch (InterruptedException e) {
