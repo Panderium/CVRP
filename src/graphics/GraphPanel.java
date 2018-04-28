@@ -12,7 +12,7 @@ public class GraphPanel extends JPanel {
     private final int RATIO = 9;
 
     private Graph graph;
-    private Taboo taboo;
+    private Taboo taboo; //je suis une clodo à la 8,6
 
     private Color[] colors = {
             Color.BLUE,

@@ -10,7 +10,6 @@ public class AlgoGen extends Algorithm implements Runnable {
 
     @Override
     protected void step() {
-
     }
 
     @Override
