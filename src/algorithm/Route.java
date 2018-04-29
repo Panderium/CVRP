@@ -19,6 +19,13 @@ public class Route {
         decreaseCapacityLeft(client.getQuantity());
     }
 
+    public void setClient(int index, Client client) {
+        if (index > 1 && index < getRoute().size() - 1) { // No warehouse !
+
+        }
+
+    }
+
     public List<Client> getRoute() {
         return route;
     }
@@ -29,10 +36,6 @@ public class Route {
 
     public void decreaseCapacityLeft(int quantity) {
         this.capacityLeft -= quantity;
-    }
-
-    public void swapClient(int i, int j) {
-        Collections.swap(route, i, j);
     }
 
     public float distanceRoute() {
@@ -47,7 +50,7 @@ public class Route {
         return distanceRoute;
     }
 
-    public float distance (int x1, int y1, int x2, int y2) {
+    public float distance(int x1, int y1, int x2, int y2) {
         return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }

@@ -1,6 +1,5 @@
 package algorithm;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Observer;
 import java.util.Random;
@@ -13,8 +12,6 @@ public class Taboo extends Algorithm implements Runnable {
 
     private Route currentRoute;
 
-    //    private int[] swappedClient;
-//    private Route swappedRoute;
     private Route[] swappedRoute;
 
     private Random randomGenerator;
@@ -64,36 +61,15 @@ public class Taboo extends Algorithm implements Runnable {
         return distance;
     }
 
-//    @Override
-//    protected void step() {
-//        float lastDistance = calculateDistance();
-//
-//        // Pick random route
-//        swappedRoute = routes.get(randomGenerator.nextInt(routes.size()));
-//
-//        // Pick 2 random clients from route except the couple already switched
-//        // First and last index are the warehouse !! Don't swap with these !!_
-//        swappedClient[0] = randomGenerator.nextInt(swappedRoute.getRoute().size() - 2) + 1;
-//
-//        int random;
-//        do {
-//            random = randomGenerator.nextInt(swappedRoute.getRoute().size() - 2) + 1;
-//        } while (random == swappedClient[0]); //bonsoir
-//        swappedClient[1] = random;
-//
-//        swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
-//
-//        // Swap back if not worth
-//        if (calculateDistance() > lastDistance)
-//            swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
-//        else {
-//            setChanged();
-//            notifyObservers(); //LA Méthode "mes couilles"
-//        }
-//        //else
-//        //    System.out.println("Stepped : swap " + swappedClient[0] + " and " + swappedClient[1] + " from " + swappedRoute + ", distance=" + lastDistance);
-//        System.out.println("distance=" + calculateDistance());
-//    }
+    private void swapClient(Route[] route, Client[] client) {
+        route[0].getRoute().set(route[1].getRoute().indexOf(client[0]), client[1]);
+        route[0].getRoute().set(route[0].getRoute().indexOf(client[1]), client[0]);
+
+        // TESTER SI LA ROUTE EST POSSIBLE, SI LA QUANTITE NE DEPASSE PAS 100 !!
+        route[0].setClient(route[1].getRoute().indexOf(client[0]), client[1]);
+        route[0].setClient(route[0].getRoute().indexOf(client[1]), client[0]);
+
+    }
 
     @Override
     protected void step() {
@@ -103,7 +79,7 @@ public class Taboo extends Algorithm implements Runnable {
         Route randomRoute[] = new Route[2];
 
         randomRoute[0] = routes.get(randomGenerator.nextInt(routes.size() - 1));
-        randomRoute[1] = routes.get(randomGenerator.nextInt(routes.size() - ));
+        randomRoute[1] = routes.get(randomGenerator.nextInt(routes.size() - 1));
 
         // Pick random client from each of these routes
         // First and last index are the warehouse !! Don't swap with these !!
@@ -111,24 +87,15 @@ public class Taboo extends Algorithm implements Runnable {
         randomClient[0] = randomRoute[0].getRoute().get(randomGenerator.nextInt(randomRoute[0].getRoute().size() - 2) + 1);
         do {
             randomClient[1] = randomRoute[1].getRoute().get(randomGenerator.nextInt(randomRoute[1].getRoute().size() - 2) + 1);
-        }while(randomClient[0] != randomClient[1]);
+        } while (randomClient[0] != randomClient[1]);
 
-        //Collections.swap(randomRoute[0], randomRoute[1], randomClient[0], randomClient[1]);
-
-        if(calculateDistance() > lastDistance)
-
-//        swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
-//
-//        // Swap back if not worth
-//        if (calculateDistance() > lastDistance)
-//            swappedRoute.swapClient(swappedClient[0], swappedClient[1]);
-//        else {
-//            setChanged();
-//            notifyObservers();
-//        }
-//        //else
-//        //    System.out.println("Stepped : swap " + swappedClient[0] + " and " + swappedClient[1] + " from " + swappedRoute + ", distance=" + lastDistance);
-//        System.out.println("distance=" + calculateDistance());
+        swapClient(randomRoute, randomClient);
+        if (calculateDistance() > lastDistance)
+            swapClient(randomRoute, randomClient);
+        else {
+            setChanged();
+            notifyObservers();
+        }
     }
 
     @Override
@@ -137,7 +104,7 @@ public class Taboo extends Algorithm implements Runnable {
 
         while (true) {
             try {
-                Thread.sleep(SLEEPING_TIME); //ON DORT PAS NOUUUUUS
+                Thread.sleep(SLEEPING_TIME);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -145,5 +112,5 @@ public class Taboo extends Algorithm implements Runnable {
             // Step taboo
             step();
         }
-    }//cyka blyat
+    }
 }
