@@ -9,10 +9,10 @@ import java.awt.*;
 import java.util.Observable;
 
 public class GraphPanel extends JPanel {
-    private final int RATIO = 9;
+    private final int RATIO = 8;
 
     private Graph graph;
-    private Taboo taboo; //je suis une clodo à la 8,6
+    private Taboo taboo;
 
     private Color[] colors = {
             Color.BLUE,

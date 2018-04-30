@@ -61,7 +61,6 @@ public class Graph {
         return clients.stream()
                 .map(Client::toString)
                 .collect(joining("\n"));
-
     }
 
     public Taboo getTaboo() {

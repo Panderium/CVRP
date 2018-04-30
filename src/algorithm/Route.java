@@ -21,9 +21,14 @@ public class Route {
 
     public void setClient(int index, Client client) {
         if (index > 1 && index < getRoute().size() - 1) { // No warehouse !
-
+            // New calculation of capacityLeft
+            capacityLeft += route.get(index).getQuantity();
+            Client oldClient = route.set(index, client);
+            System.out.println("Replaced " + oldClient);
+            capacityLeft -= client.getQuantity();
         }
-
+        else
+            System.err.println("CAN'T SWAP WITH INDEX " + index);
     }
 
     public List<Client> getRoute() {
