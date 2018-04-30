@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Taboo extends Algorithm implements Runnable {
 
-    private final int SLEEPING_TIME = 1000;
+    private final int SLEEPING_TIME = 5;
 
     private Graph graph;
 
@@ -49,7 +49,7 @@ public class Taboo extends Algorithm implements Runnable {
         currentRoute.addClient(graph.getWarehouse());
     }
 
-    private float calculateDistance() {
+    public float calculateDistance() {
         float distance = 0;
 
         for (Route r : routes)
@@ -59,22 +59,27 @@ public class Taboo extends Algorithm implements Runnable {
     }
 
     private void swapClient(Route[] route, Client[] client) {
+        float lastDistance = calculateDistance();
+
         route[0].setClient(route[0].getRoute().indexOf(client[0]), client[1]);
         route[1].setClient(route[1].getRoute().indexOf(client[1]), client[0]);
 
         // Test if routes created are correct
-        if (route[0].getCapacityLeft() < 0 || route[1].getCapacityLeft() < 0) {
+        if (route[0].getCapacityLeft() < 0 || route[1].getCapacityLeft() < 0 || calculateDistance() > lastDistance) {
             // SWAP BACK BECAUSE IMPOSSIBLE MOVE !!
-            route[0].setClient(route[0].getRoute().indexOf(client[0]), client[0]);
-            route[1].setClient(route[1].getRoute().indexOf(client[1]), client[1]);
-            System.err.println("Impossible move because of quantity");
+            route[0].setClient(route[0].getRoute().indexOf(client[1]), client[0]);
+            route[1].setClient(route[1].getRoute().indexOf(client[0]), client[1]);
+            //System.err.println("Run back because impossible route or not worth it");
+        }
+        else{
+            setChanged();
+            notifyObservers();
+            System.out.println("distance=" + calculateDistance());
         }
     }
 
     @Override
     protected void step() {
-        float lastDistance = calculateDistance();
-
         // Pick 2 random routes
         Route randomRoute[] = new Route[2];
 
@@ -92,14 +97,6 @@ public class Taboo extends Algorithm implements Runnable {
 
         //TODO ajouter la possibilité de simplement transférer un client dans un autre chemin (à une place random)
         swapClient(randomRoute, randomClient);
-        if (calculateDistance() > lastDistance) {// Swap back if not worth
-            swapClient(randomRoute, randomClient);
-            System.err.println("Back, not worth");
-        }
-        else{
-            setChanged();
-            notifyObservers();
-        }
     }
 
     @Override

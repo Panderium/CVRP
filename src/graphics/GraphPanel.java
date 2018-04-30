@@ -48,6 +48,7 @@ public class GraphPanel extends JPanel {
             return;
         }
         colorCount = 0;
+
         taboo.getRoutes().forEach(route -> {
             g.setColor(getRandomColor());
 
