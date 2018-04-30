@@ -13,7 +13,7 @@ public class Graph {
     private final List<Client> clients;
     private Client warehouse;
 
-    private Taboo taboo;
+    private AlgoGen algoGen;
 
     public Graph(String filename, Observer observer) {
         this.clients = new ArrayList<>();
@@ -51,9 +51,9 @@ public class Graph {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.taboo = null;
+        this.algoGen = null;
 
-        (new Thread(new Taboo(this, observer))).start();
+        (new Thread(new AlgoGen(this, observer))).start();
     }
 
     @Override
@@ -64,8 +64,8 @@ public class Graph {
 
     }
 
-    public Taboo getTaboo() {
-        return taboo;
+    public AlgoGen getAlgoGen() {
+        return algoGen;
     }
 
 

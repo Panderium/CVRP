@@ -53,15 +53,6 @@ public class Taboo extends Algorithm implements Runnable {
         currentRoute.addClient(graph.getWarehouse());
     }
 
-    private float calculateDistance() {
-        float distance = 0;
-
-        for (Route r : routes)
-            distance += r.distanceRoute();
-
-        return distance;
-    }
-
     @Override
     protected void step() {
         float lastDistance = calculateDistance();

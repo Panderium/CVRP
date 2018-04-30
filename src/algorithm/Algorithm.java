@@ -14,6 +14,15 @@ public abstract class Algorithm extends Observable {
         this.addObserver(observer);
     }
 
+    protected float calculateDistance() {
+        float distance = 0;
+
+        for (Route r : routes)
+            distance += r.distanceRoute();
+
+        return distance;
+    }
+
     public List<Route> getRoutes() {
         return routes;
     }
