@@ -1,7 +1,6 @@
 package algorithm;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Route {
@@ -17,6 +16,16 @@ public class Route {
     public void addClient(Client client) {
         this.route.add(client);
         decreaseCapacityLeft(client.getQuantity());
+    }
+
+    public void addClient(int index, Client client) {
+        this.route.add(index, client);
+        decreaseCapacityLeft(client.getQuantity());
+    }
+
+    public void removeClient(Client client) {
+        this.route.remove(client);
+        capacityLeft += client.getQuantity();
     }
 
     public void setClient(int index, Client client) {

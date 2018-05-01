@@ -49,17 +49,22 @@ public class GraphPanel extends JPanel {
         }
         colorCount = 0;
 
-        taboo.getRoutes().forEach(route -> {
-            g.setColor(getRandomColor());
+        try {
+            taboo.getRoutes().forEach(route -> {
+                g.setColor(getRandomColor());
 
-            Client lastClient = route.getRoute().get(0);
+                Client lastClient = route.getRoute().get(0);
 
-            for (int i = 1; i < route.getRoute().size(); i++) {
-                Client currentClient = route.getRoute().get(i);
-                g.drawLine(lastClient.getX() * RATIO, lastClient.getY() * RATIO, currentClient.getX() * RATIO, currentClient.getY() * RATIO);
-                lastClient = currentClient;
-            }
-        });
+                for (int i = 1; i < route.getRoute().size(); i++) {
+                    Client currentClient = route.getRoute().get(i);
+                    g.drawLine(lastClient.getX() * RATIO, lastClient.getY() * RATIO, currentClient.getX() * RATIO, currentClient.getY() * RATIO);
+                    lastClient = currentClient;
+                }
+            });
+        }
+        catch(Exception e) {
+
+        }
 
         g.setColor(Color.BLUE);
         g.fillOval(graph.getWarehouse().getX() * RATIO - RATIO / 2, graph.getWarehouse().getY() * RATIO - RATIO / 2, RATIO, RATIO);
