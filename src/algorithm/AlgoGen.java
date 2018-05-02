@@ -5,8 +5,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AlgoGen extends Algorithm implements Runnable {
 
-    private final int SLEEPING_TIME = 20;
-    private final double PROB_CROSS = 0.5;
+    private final int SLEEPING_TIME = 5;
+    private final double PROB_CROSS = 0.1;
+
+    private int TOTAL_LOOP_BY_NB_ROUTE;
+    private int TOTAL_LOOP;
     private int NB_LOOP = 0;
 
     private Graph graph;
@@ -18,7 +21,38 @@ public class AlgoGen extends Algorithm implements Runnable {
         super(observer);
         this.graph = graph;
 
+        TOTAL_LOOP_BY_NB_ROUTE = graph.getClients().size() * 10;
+        TOTAL_LOOP = TOTAL_LOOP_BY_NB_ROUTE * 4;
+
         random = new Random();
+    }
+
+    private void sort() {
+        List<Client> clients = graph.getClients();
+        Client warehouse = graph.getWarehouse();
+        Collections.sort(clients, new Comparator<Client>() {
+            @Override
+            public int compare(Client o1, Client o2) {
+                return (o2.getX() + o2.getY()) - (o1.getX() + o1.getY());
+            }
+        });
+        System.out.println(warehouse);
+        System.out.println(clients);
+        graph.setClients(clients);
+    }
+
+    private void reverseSort() {
+        List<Client> clients = graph.getClients();
+        Client warehouse = graph.getWarehouse();
+        Collections.sort(clients, new Comparator<Client>() {
+            @Override
+            public int compare(Client o1, Client o2) {
+                return (o2.getId() - o1.getId());
+            }
+        });
+        System.out.println(warehouse);
+        System.out.println(clients);
+        graph.setClients(clients);
     }
 
     private void initRoutes() {
@@ -50,7 +84,7 @@ public class AlgoGen extends Algorithm implements Runnable {
 
     @Override
     protected void step() {
-        if (NB_LOOP != 0 && NB_LOOP % 200 == 0) {
+        if (NB_LOOP != 0 && NB_LOOP % TOTAL_LOOP_BY_NB_ROUTE == 0) {
             System.out.println("adding new route...");
             Route newRoute = new Route();
             newRoute.addClient(graph.getWarehouse());
@@ -76,18 +110,19 @@ public class AlgoGen extends Algorithm implements Runnable {
     private void mutation(Route best, Route r) {
         int size = r.getRoute().size() < best.getRoute().size() ? r.getRoute().size() : best.getRoute().size();
         float distanceBefore = best.distanceRoute() + r.distanceRoute();
-
-        for (int i = 0; i < size - 1; i++) {
-            //do mutation
-            doSwap(r, best, i);
-            //check (and reverse)
-            float newDistance = best.distanceRoute() + r.distanceRoute();
-            if (distanceBefore < newDistance) {
-                //swap back
+        for (int j = 0; j < 2; j++) {
+            for (int i = 0; i < size - 1; i++) {
+                //do mutation
                 doSwap(r, best, i);
-            } else
-                distanceBefore = newDistance;
+                //check (and reverse)
+                float newDistance = best.distanceRoute() + r.distanceRoute();
+                if (distanceBefore < newDistance) {
+                    //swap back
+                    doSwap(r, best, i);
+                } else
+                    distanceBefore = newDistance;
 
+            }
         }
     }
 
@@ -171,11 +206,13 @@ public class AlgoGen extends Algorithm implements Runnable {
     @Override
     public void run() {
         HashMap<Integer, List<Route>> solutions = new HashMap<>();
+        //sort();
+        reverseSort();
         initRoutes();
         System.out.println("distance=" + calculateDistance());
 
         //for (int i = 0; i < graph.getClients().size(); i++)
-        while (NB_LOOP != 700) {
+        while (NB_LOOP != TOTAL_LOOP) {
             try {
                 Thread.sleep(SLEEPING_TIME);
             } catch (InterruptedException e) {

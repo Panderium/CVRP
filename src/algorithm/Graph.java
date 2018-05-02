@@ -10,7 +10,7 @@ import java.util.Observer;
 import static java.util.stream.Collectors.joining;
 
 public class Graph {
-    private final List<Client> clients;
+    private List<Client> clients;
     private Client warehouse;
 
     private AlgoGen algoGen;
@@ -75,5 +75,9 @@ public class Graph {
 
     public List<Client> getClients() {
         return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 }
