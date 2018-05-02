@@ -47,6 +47,23 @@ public class Route {
         return distanceRoute;
     }
 
+    public void removeLastWarehouse() {
+        route.remove(route.size() - 1);
+    }
+
+    public void setRoute(List<Client> route) {
+        this.route = route;
+    }
+
+    public void setCapacityLeft(int capacityLeft) {
+        this.capacityLeft = capacityLeft;
+    }
+
+    public void removeClient(int i) {
+        route.remove(i);
+
+    }
+
     public float distance (int x1, int y1, int x2, int y2) {
         return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
