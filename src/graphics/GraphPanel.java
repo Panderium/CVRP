@@ -44,7 +44,7 @@ public class GraphPanel extends JPanel {
         super.paintComponent(g);
 
         if (graph == null) {
-            System.out.println("graph RETURNED");
+            //System.out.println("graph RETURNED");
             return;
         }
         colorCount = 0;

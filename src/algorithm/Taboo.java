@@ -133,7 +133,6 @@ public class Taboo extends Algorithm implements Runnable {
             randomClient[1] = randomRoute[1].getRoute().get(randomGenerator.nextInt(randomRoute[1].getRoute().size() - 1));
         } while (randomClient[0] == randomClient[1]);
 
-        //TODO ajouter la possibilité de simplement transférer un client dans un autre chemin (à une place random)
         // If we randomly took a warehouse, then we just transfer the Client in another Route
         if(!randomClient[1].equals(graph.getWarehouse()))
             swapClient(randomRoute, randomClient);
@@ -144,6 +143,7 @@ public class Taboo extends Algorithm implements Runnable {
     @Override
     public void run() {
         initRoutes();
+        System.out.println("distance=" + calculateDistance());
         while (true) {
             try {
                 Thread.sleep(SLEEPING_TIME);
