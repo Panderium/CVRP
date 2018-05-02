@@ -13,7 +13,7 @@ public class Graph {
     private final List<Client> clients;
     private Client warehouse;
 
-    private Taboo taboo;
+    private Algorithm algorithm;
 
     public Graph(String filename, Observer observer) {
         this.clients = new ArrayList<>();
@@ -32,7 +32,6 @@ public class Graph {
             while ((line = reader.readLine()) != null) {
                 lineSplit = line.split(";");
 
-                // TODO lambdaaa <3<3<3
                 Client client = new Client(Integer.parseInt(lineSplit[0]),
                         Integer.parseInt(lineSplit[1]),
                         Integer.parseInt(lineSplit[2]),
@@ -51,7 +50,7 @@ public class Graph {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.taboo = null;
+        this.algorithm = null;
 
         (new Thread(new Taboo(this, observer))).start();
     }
@@ -62,11 +61,6 @@ public class Graph {
                 .map(Client::toString)
                 .collect(joining("\n"));
     }
-
-    public Taboo getTaboo() {
-        return taboo;
-    }
-
 
     public Client getWarehouse() {
         return warehouse;

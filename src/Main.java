@@ -15,15 +15,16 @@ public class Main {
         do {
             System.out.print("Choix de l'algorithme : ");
             algorithmChoice = scanner.nextInt();
-        }while(algorithmChoice < 1 || algorithmChoice > 2);
+        } while (algorithmChoice < 1 || algorithmChoice > 2);
 
         int fileNumber;
 
         do {
             System.out.print("Choix du fichier de données (1 - 3) : ");
             fileNumber = scanner.nextInt();
-        }while(fileNumber < 1 || fileNumber > 3);
+        } while (fileNumber < 1 || fileNumber > 3);
 
+//        if(algorithmChoice == 1)
         Window window = new Window("Visualisation du graph", "data0" + fileNumber + ".txt");
     }
 }
