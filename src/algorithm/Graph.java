@@ -12,8 +12,9 @@ import static java.util.stream.Collectors.joining;
 public class Graph {
     private List<Client> clients;
     private Client warehouse;
+    
+    private Algorithm algorithm;
 
-    private AlgoGen algoGen;
 
     public Graph(String filename, Observer observer) {
         this.clients = new ArrayList<>();
@@ -32,7 +33,6 @@ public class Graph {
             while ((line = reader.readLine()) != null) {
                 lineSplit = line.split(";");
 
-                // TODO lambdaaa <3<3<3
                 Client client = new Client(Integer.parseInt(lineSplit[0]),
                         Integer.parseInt(lineSplit[1]),
                         Integer.parseInt(lineSplit[2]),
@@ -51,7 +51,8 @@ public class Graph {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.algoGen = null;
+
+        this.algorithm = null;
 
         (new Thread(new AlgoGen(this, observer))).start();
     }
@@ -62,11 +63,6 @@ public class Graph {
                 .map(Client::toString)
                 .collect(joining("\n"));
     }
-
-    public AlgoGen getAlgoGen() {
-        return algoGen;
-    }
-
 
     public Client getWarehouse() {
         return warehouse;
