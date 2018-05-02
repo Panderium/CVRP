@@ -1,5 +1,7 @@
 package algorithm;
 
+import java.util.Objects;
+
 public class Client {
 
     private int id;
@@ -14,32 +16,20 @@ public class Client {
         this.quantity = quantity;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public int getX() {
         return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
     }
 
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
     public int getQuantity() {
         return quantity;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override
@@ -50,7 +40,19 @@ public class Client {
                 ",quantity=" + quantity;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Client client = (Client) o;
+        return id == client.id &&
+                x == client.x &&
+                y == client.y &&
+                quantity == client.quantity;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, x, y, quantity);
     }
 }

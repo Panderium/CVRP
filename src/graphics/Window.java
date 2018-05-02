@@ -28,7 +28,6 @@ public class Window extends JFrame implements Observer {
         this.setVisible(true);
 
         graph = new Graph(filename, this);
-
     }
 
 

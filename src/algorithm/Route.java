@@ -1,7 +1,6 @@
 package algorithm;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Route {
@@ -19,6 +18,27 @@ public class Route {
         decreaseCapacityLeft(client.getQuantity());
     }
 
+    public void addClient(int index, Client client) {
+        this.route.add(index, client);
+        decreaseCapacityLeft(client.getQuantity());
+    }
+
+    public void removeClient(Client client) {
+        this.route.remove(client);
+        capacityLeft += client.getQuantity();
+    }
+
+    public void setClient(int index, Client client) {
+        if (index > 0 && index < getRoute().size() - 1) { // No warehouse !
+            // New calculation of capacityLeft
+            capacityLeft += route.get(index).getQuantity();
+            route.set(index, client);
+            capacityLeft -= client.getQuantity();
+        }
+        else
+            System.err.println("CAN'T SWAP WITH INDEX " + index);
+    }
+
     public List<Client> getRoute() {
         return route;
     }
@@ -29,10 +49,6 @@ public class Route {
 
     public void decreaseCapacityLeft(int quantity) {
         this.capacityLeft -= quantity;
-    }
-
-    public void swapClient(int i, int j) {
-        Collections.swap(route, i, j);
     }
 
     public float distanceRoute() {

@@ -10,7 +10,7 @@ import java.awt.*;
 import java.util.Observable;
 
 public class GraphPanel extends JPanel {
-    private final int RATIO = 9;
+    private final int RATIO = 8;
 
     private Graph graph;
     private AlgoGen algoGen;
@@ -45,21 +45,29 @@ public class GraphPanel extends JPanel {
         super.paintComponent(g);
 
         if (graph == null) {
-            System.out.println("graph RETURNED");
+            //System.out.println("graph RETURNED");
             return;
         }
         colorCount = 0;
         algoGen.getRoutes().forEach(route -> {
             g.setColor(getRandomColor());
 
-            Client lastClient = route.getRoute().get(0);
+        try {
+            taboo.getRoutes().forEach(route -> {
+                g.setColor(getRandomColor());
 
-            for (int i = 1; i < route.getRoute().size(); i++) {
-                Client currentClient = route.getRoute().get(i);
-                g.drawLine(lastClient.getX() * RATIO, lastClient.getY() * RATIO, currentClient.getX() * RATIO, currentClient.getY() * RATIO);
-                lastClient = currentClient;
-            }
-        });
+                Client lastClient = route.getRoute().get(0);
+
+                for (int i = 1; i < route.getRoute().size(); i++) {
+                    Client currentClient = route.getRoute().get(i);
+                    g.drawLine(lastClient.getX() * RATIO, lastClient.getY() * RATIO, currentClient.getX() * RATIO, currentClient.getY() * RATIO);
+                    lastClient = currentClient;
+                }
+            });
+        }
+        catch(Exception e) {
+
+        }
 
         g.setColor(Color.BLUE);
         g.fillOval(graph.getWarehouse().getX() * RATIO - RATIO / 2, graph.getWarehouse().getY() * RATIO - RATIO / 2, RATIO, RATIO);
