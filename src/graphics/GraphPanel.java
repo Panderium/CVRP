@@ -1,6 +1,5 @@
 package graphics;
 
-import algorithm.AlgoGen;
 import algorithm.Client;
 import algorithm.Graph;
 import algorithm.Taboo;
@@ -13,7 +12,7 @@ public class GraphPanel extends JPanel {
     private final int RATIO = 8;
 
     private Graph graph;
-    private AlgoGen algoGen;
+    private Taboo taboo;
 
     private Color[] colors = {
             Color.BLUE,
@@ -30,7 +29,7 @@ public class GraphPanel extends JPanel {
 
     public void drawClients(Graph graph, Observable o) {
         this.graph = graph;
-        this.algoGen = (AlgoGen) o;
+        this.taboo = (Taboo) o;
 
         repaint();
         revalidate();
@@ -49,8 +48,6 @@ public class GraphPanel extends JPanel {
             return;
         }
         colorCount = 0;
-        algoGen.getRoutes().forEach(route -> {
-            g.setColor(getRandomColor());
 
         try {
             taboo.getRoutes().forEach(route -> {
