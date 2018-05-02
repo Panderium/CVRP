@@ -1,3 +1,4 @@
+import algorithm.AlgoGen;
 import algorithm.Graph;
 import graphics.Window;
 
@@ -15,6 +16,13 @@ public class Main {
             System.out.print("Choix de l'algorithme : ");
             Graph.algorithmChoice = scanner.nextInt();
         } while (Graph.algorithmChoice < 1 || Graph.algorithmChoice > 2);
+
+        if(Graph.algorithmChoice == 2) { // If AlgoGen
+            do {
+                System.out.print("Probabilité de croisement (entre 0 et 1) : ");
+                AlgoGen.PROB_CROSS = (double)scanner.nextInt() / 100;
+            }while(AlgoGen.PROB_CROSS <= 0 || AlgoGen.PROB_CROSS >= 1);
+        }
 
         int fileNumber;
 

@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AlgoGen extends Algorithm implements Runnable {
 
     private final int SLEEPING_TIME = 5;
-    private final double PROB_CROSS = 0.1;
+    public static double PROB_CROSS = 0.1;
 
     private int TOTAL_LOOP_BY_NB_ROUTE;
     private int TOTAL_LOOP;
