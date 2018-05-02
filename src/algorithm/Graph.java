@@ -10,11 +10,10 @@ import java.util.Observer;
 import static java.util.stream.Collectors.joining;
 
 public class Graph {
+    public static int algorithmChoice;
+
     private List<Client> clients;
     private Client warehouse;
-    
-    private Algorithm algorithm;
-
 
     public Graph(String filename, Observer observer) {
         this.clients = new ArrayList<>();
@@ -52,9 +51,10 @@ public class Graph {
             e.printStackTrace();
         }
 
-        this.algorithm = null;
-
-        (new Thread(new AlgoGen(this, observer))).start();
+        if (algorithmChoice == 1) // Taboo choice
+            (new Thread(new Taboo(this, observer))).start();
+        else // Genetic choice
+            (new Thread(new AlgoGen(this, observer))).start();
     }
 
     @Override
